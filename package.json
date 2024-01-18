@@ -1,0 +1,34 @@
+{
+  "name": "kphandev",
+  "version": "1.0.0",
+  "description": "Kevin Phan's portfolio update 2024",
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0",
+    "build": "next build",
+    "prettier": "prettier -write .",
+    "lint": "next lint"
+  },
+  "keywords": [],
+  "author": "Kevin Phan <thekphantastic@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@react-google-maps/api": "^2.19.2",
+    "eslint-plugin-prettier": "^5.1.3",
+    "framer-motion": "^10.18.0",
+    "leaflet": "^1.9.4",
+    "next": "^14.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.0.1",
+    "react-leaflet": "^4.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.0.4",
+    "prettier": "^3.1.1"
+  }
+}
