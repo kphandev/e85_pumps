@@ -1,8 +1,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Text, useColorModeValue } from '@chakra-ui/react'
+import { Heading, useColorModeValue } from '@chakra-ui/react'
 import styled from '@emotion/styled'
 
+
+const ImageContainer = styled.div`
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #d3d3d3;
+`;
 
 const animation = `
 @keyframes animation {
@@ -27,31 +33,30 @@ const LogoBox = styled.span`
   }
 `;
 
-const ImageContainer = styled.div`
-  border-radius: 12px;
-  overflow: hidden;
-  width: 60px;
-  height: 60px;
-`;
+
 
 const Logo = () => {
   const emblemImg = `/images/e85_icon.png`
+
   return (
     <Link href="/">
       <LogoBox>
         <ImageContainer>
-          <Image src={emblemImg} width={60} height={60} alt="logo" />
+          <Image
+            src={emblemImg}
+            width={60}
+            height={60}
+            alt="logo"
+          />
         </ImageContainer>
-        <Text
+        <Heading
           color={useColorModeValue('gray.800', 'whiteAlpha.900')}
-          fontFamily='M PLUS Rounded 1c'
-          fontWeight="bold"
+          textAlign={'center'}
           fontSize="xl"
           ml={5}
-          textAlign={'center'}
         >
           E85 Pumps
-        </Text>
+        </Heading>
       </LogoBox>
     </Link>
   )

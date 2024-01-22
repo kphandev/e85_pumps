@@ -5,7 +5,7 @@ import { mode } from '@chakra-ui/theme-tools'
 const styles = {
     global: props => ({
         body: {
-            bg: mode('#EBF8FF', '#1A202C')(props)
+            bg: mode('#D1FFFC', '#1A202C')(props)
         }
     })
 }
@@ -33,8 +33,10 @@ const components = {
 }
 
 const fonts = {
-    heading: "'M PLUS Rounded 1c'"
+    body: "'Montserrat', sans-serif", 
+    heading: "'Montserrat', sans-serif",
 }
+
 
 const config = {
     initialColorMode: 'dark',

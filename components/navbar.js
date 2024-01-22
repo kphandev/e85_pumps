@@ -8,21 +8,24 @@ import {
     Heading,
     Flex,
     useColorModeValue
-} from '@chakra-ui/react'
+} from '@chakra-ui/react' 
 import ThemeToggleButton from './theme-toggle-button'
+import NavLinksContainer from './navlinks'
 
 const LinkItem = ({ href, path, children }) => {
-    const active = path === href
-    const inactiveColor = useColorModeValue('gray200', 'whiteAlpha.900')
+    const activeColor = useColorModeValue('whiteAlpha.900', 'gray.900');
+    const inactiveColor = useColorModeValue('gray.900', 'whiteAlpha.900');
+    const activeBgColor = useColorModeValue('orange.500', 'orange.200');
+
+    const linkStyles = {
+        p: 2,
+        borderRadius: 'md',
+        bg: path === href ? activeBgColor : undefined,
+        color: path === href ? activeColor : inactiveColor,
+    }
+
     return (
-        <Link
-            as={NextLink}
-            href={href}
-            p={2}
-            bg={active ? '#F6AD55' : undefined}
-            color={active ? '#202023' : inactiveColor}
-            borderRadius="md"
-        >
+        <Link as={NextLink} href={href} {...linkStyles}>
             {children}
         </Link>
     )
@@ -36,8 +39,6 @@ const Navbar = props => {
             position="fixed"
             as="nav"
             w="100%"
-            bg={useColorModeValue('#ffffff40', '#202023980')}
-            style={{ backdropFilter: 'blur(5px' }}
             zIndex={1}
             {...props}
         >
@@ -51,25 +52,16 @@ const Navbar = props => {
                 justify="space-between"
             >
                 {/* Logo component */}
-                <Flex align="center" mr={5}>
-                    <Heading as="h1" size="lg" letterSpacing={'tighter'}>
-                        <Logo/>
+                <Flex align="center" mr={5} mt={2}>
+                    <Heading as="h1" size="lg" letterSpacing={'normal'}>
+                        <Logo />
                     </Heading>
                 </Flex>
 
                 {/* Desktop Menu */}
-                <Stack
-                    direction={{ base: 'column', md: 'row' }}
-                    display={{ base: 'none', md: 'flex' }}
-                    width={{ base: 'full', md: 'auto' }}
-                    alignItems='center'
-                    flexGrow={1}
-                    mt={{ base: 4, nmd: 0 }}
-                >
-                    <LinkItem href="/" path={path}>map</LinkItem>
-                    <LinkItem href="/profile" path={path}>profile</LinkItem>
-                    <LinkItem href="/settings" path={path}>settings</LinkItem>
-                </Stack>
+                <Flex direction={{ base: 'column', md: 'row' }} display={{ base: 'none', md: 'flex' }} flexGrow={1} mt={{ base: 4, nmd: 0 }}>
+                    <NavLinksContainer />
+                </Flex>
 
                 <Box flex={1} align="right">
                     <ThemeToggleButton></ThemeToggleButton>
