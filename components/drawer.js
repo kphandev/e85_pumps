@@ -13,11 +13,7 @@ const InfoDrawer = ({ title, children }) => {
     });
 
     return (
-        <Drawer
-            placement={drawerProps.placement}
-            onClose={toggleDrawer}
-            isOpen={isDrawerOpen}
-        >
+        <Drawer placement={drawerProps.placement} onClose={toggleDrawer} isOpen={isDrawerOpen}>
             <DrawerOverlay />
             <DrawerContent maxW={drawerProps.width} height={drawerProps.height}>
                 <DrawerHeader>{title}</DrawerHeader>

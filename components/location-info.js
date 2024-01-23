@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs, TabList, TabPanels, Tab, TabPanel, useBreakpointValue } from "@chakra-ui/react";
+import { Tabs, TabList, TabPanels, Tab, TabPanel, useBreakpointValue, VStack, Box, Flex } from "@chakra-ui/react";
 
 import LocationGeneral from './location-general'
 import LocationImages from './location-images'
@@ -53,24 +53,27 @@ const LocationInfo = ({ locationId }) => {
     return (
         <>
             {isMobile ? (
-                <Tabs>
-                    <TabList>
-                        <Tab>General</Tab>
-                        <Tab>Images</Tab>
-                        <Tab>Comments</Tab>
-                    </TabList>
-                    <TabPanels>
-                        <TabPanel><LocationGeneral data={data} /></TabPanel>
-                        <TabPanel><LocationImages data={testImages} /></TabPanel>
-                        <TabPanel><LocationComments data={testComments} /></TabPanel>
-                    </TabPanels>
-                </Tabs>
+                <Flex direction="column" height="100%">
+
+                    <Tabs colorScheme='orange' flex="1">
+                        <TabList justifyContent="space-between">
+                            <Tab>General</Tab>
+                            <Tab>Images</Tab>
+                            <Tab>Comments</Tab>
+                        </TabList>
+                        <TabPanels>
+                            <TabPanel height="50vh"><LocationGeneral data={data} /></TabPanel>
+                            <TabPanel height="50vh"><LocationImages data={testImages} /></TabPanel>
+                            <TabPanel height="50vh"><LocationComments data={testComments} /></TabPanel>
+                        </TabPanels>
+                    </Tabs>
+                </Flex>
             ) : (
-                <>
-                    <LocationGeneral data={data} />
-                    <LocationImages data={testImages} />
-                    <LocationComments data={testComments} />
-                </>
+                <VStack spacing={4} align="stretch" height="100%">
+                    <Box flex={1} py={5}><LocationGeneral data={data} /></Box>
+                    <Box flex={1} py={5}><LocationImages data={testImages} /></Box>
+                    <Box flex={1} py={5}><LocationComments data={testComments} /></Box>
+                </VStack>
             )}
         </>
     )

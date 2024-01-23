@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Text, Box, Button, IconButton, Stack } from "@chakra-ui/react";
+import { Text, Box, Button, IconButton, Stack, Flex } from "@chakra-ui/react";
 import { FiThumbsUp, FiThumbsDown, FiMessageSquare } from 'react-icons/fi';
 
 
 // This component will render each individual comment
 const Comment = ({ content, likes, dislikes, date }) => {
     return (
-        <Box bg="gray.700" p={4} borderRadius="md" mb={2}>
+        <Box borderRadius="md" mb={2}>
             <Stack direction="row" spacing={4} align="center">
                 <IconButton aria-label="Like" icon={<FiThumbsUp />} />
                 <Text>{likes}</Text>
@@ -30,23 +30,25 @@ const LocationComments = ({ data }) => {
     };
 
     return (
-        <Box>
-            <InfiniteScroll
-                dataLength={comments.length}
-                next={fetchMoreComments}
-                hasMore={hasMore}
-                loader={<h4>Loading...</h4>}
-            >
-                <Stack spacing={8}>
-                    {comments.map((comment, index) => (
-                        <Comment key={index} {...comment} />
-                    ))}
-                </Stack>
-            </InfiniteScroll>
-            <Button leftIcon={<FiMessageSquare />} colorScheme="blue" w="full" mt={4}>
+        <Flex direction="column" borderRadius="md" height="full">
+            <Box flex={1}>
+                <InfiniteScroll
+                    dataLength={comments.length}
+                    next={fetchMoreComments}
+                    hasMore={hasMore}
+                    loader={<h4>Loading...</h4>}
+                >
+                    <Stack spacing={8}>
+                        {comments.map((comment, index) => (
+                            <Comment key={index} {...comment} />
+                        ))}
+                    </Stack>
+                </InfiniteScroll>
+            </Box>
+            <Button leftIcon={<FiMessageSquare />} colorScheme="orange" w="full" mt={4}>
                 Add Comment
             </Button>
-        </Box>
+        </Flex>
     );
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useColorModeValue, Button, Flex, Box, Text } from '@chakra-ui/react';
 import { useDrawer } from '../context/DrawerContext';
@@ -26,6 +26,8 @@ const getMarkersFromCache = () => {
 };
 
 const Map = () => {
+    const position = [51.505, -0.09];
+
     const { setDrawerContentHandler } = useDrawer();
     const { setSelectedLocationId, setSelectedLocationName } = useLocation();
     const [markers, setMarkers] = useState([]);
@@ -79,41 +81,54 @@ const Map = () => {
         showNotification('You are about to snitch. You sure?', 'error');
     };
 
-    const position = [51.505, -0.09];
+
+    const popupBackgroundColor = useColorModeValue('white', '#2d3748');
+    const popupTextColor = useColorModeValue('black', 'white');
+    const popupStyle = useMemo(() => `
+        .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+            background-color: ${popupBackgroundColor};
+            color: ${popupTextColor};
+            /* Other custom styles */
+        }
+    `, [popupBackgroundColor, popupTextColor]);
 
     return (
-        <MapContainer
-            zoom={13}
-            center={position}
-            style={{
-                height: '85vh',
-                borderRadius: '5px',
-                boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)'
-            }}
-        >
-            <TileLayer url={tileLayerURL} />
-            {markers.map((marker, index) => (
-                <Marker
-                    key={index}
-                    position={marker.position}
-                    icon={customIcon}
-                >
-                    <Popup>
-                        <Flex direction="column" p={2}>
-                            <Box mb={3}>
-                                <Text><strong>ID:</strong> {marker.id}</Text>
-                                <Text><strong>Name:</strong> {marker.name}</Text>
-                                <Text><strong>Status:</strong> {marker.status}</Text>
-                            </Box>
-                            <Flex justify="center" gap={2}>
-                                <Button colorScheme={buttonColorScheme} size="sm" onClick={() => handleDetailsClick(marker)}>Details</Button>
-                                <Button colorScheme={buttonColorScheme} size="sm" onClick={() => handleError()}>Report</Button>
+        <>
+            <style>{popupStyle}</style>
+            <MapContainer
+                zoom={13}
+                center={position}
+                style={{
+                    height: '85vh',
+                    borderRadius: '5px',
+                    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)'
+                }}
+            >
+                <TileLayer url={tileLayerURL} />
+                {markers.map((marker, index) => (
+                    <Marker
+                        key={index}
+                        position={marker.position}
+                        icon={customIcon}
+                    >
+                        <Popup>
+                            <Flex direction="column" p={2} >
+                                <Box mb={3}>
+                                    <Text><strong>ID:</strong> {marker.id}</Text>
+                                    <Text><strong>Name:</strong> {marker.name}</Text>
+                                    <Text><strong>Status:</strong> {marker.status}</Text>
+                                </Box>
+                                <Flex justify="center" gap={2} >
+                                    <Button colorScheme={buttonColorScheme} size="sm" onClick={() => handleDetailsClick(marker)}>Details</Button>
+                                    <Button colorScheme={buttonColorScheme} size="sm" onClick={() => handleError()}>Report</Button>
+                                </Flex>
                             </Flex>
-                        </Flex>
-                    </Popup>
-                </Marker>
-            ))}
-        </MapContainer>
+                        </Popup>
+                    </Marker>
+                ))}
+            </MapContainer>
+        </>
+
     );
 };
 

@@ -1,6 +1,6 @@
 import InfiniteScroll from "react-infinite-scroll-component";
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
-import { useBreakpointValue, Flex, Image, Box, IconButton, SimpleGrid } from "@chakra-ui/react";
+import { useBreakpointValue, Flex, Image, Box, IconButton, SimpleGrid, Button, Icon, Spacer } from "@chakra-ui/react";
 import React from 'react'
 
 const DesktopImageCarousel = ({ images }) => {
@@ -32,8 +32,8 @@ const DesktopImageCarousel = ({ images }) => {
                 }}
             >
                 {images.map((image, index) => (
-                    <Box key={index} minW="120px" mr={2}>
-                        <Image src={image.src} alt={image.alt} />
+                    <Box key={index} minW="200px" mr={2}>
+                        <Image src={image.src} alt={image.alt} borderRadius="10px" />
                     </Box>
                 ))}
             </Flex>
@@ -62,8 +62,8 @@ const MobileImageGrid = ({ images, fetchMoreImages }) => {
         >
             <SimpleGrid columns={2} spacing={2}>
                 {images.map((image, index) => (
-                    <Box key={index} h="120px">
-                        <Image src={image.src} alt={image.alt} objectFit="cover" />
+                    <Box key={index} h="10vh">
+                        <Image src={image.src} alt={image.alt} maxW="120px" objectFit="cover" borderRadius={"10px"} />
                     </Box>
                 ))}
             </SimpleGrid>
@@ -80,9 +80,24 @@ const LocationImages = ({ data }) => {
 
     if (data) {
         if (isMobile) {
-            return <MobileImageGrid images={data} fetchMoreImages={fetchMore} />;
+            return (
+                <Flex direction="column" borderRadius="md" height="full">
+                    <Box flex={1}>
+                        <MobileImageGrid images={data} fetchMoreImages={fetchMore} />
+                    </Box>
+                    <Spacer />
+                    <Button colorScheme="orange" leftIcon={<Icon name="navigation" />}>Upload Image</Button>
+                </Flex>
+            )
         } else {
-            return <DesktopImageCarousel images={data} />;
+            return (
+                <Flex direction="column" borderRadius="md" height="full">
+                    <Box flex={1}>
+                        <DesktopImageCarousel images={data} />
+                    </Box>
+                    <Button colorScheme="orange" leftIcon={<Icon name="navigation" />}>Upload Image</Button>
+                </Flex>
+            )
         }
     }
 
