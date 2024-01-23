@@ -65,7 +65,7 @@ const MobileImageGrid = ({ images, fetchMoreImages }) => {
                     <Box key={index} h="10vh">
                         <Image src={image.src} alt={image.alt} maxW="120px" objectFit="cover" borderRadius={"10px"} />
                     </Box>
-                ))}
+                ))} 
             </SimpleGrid>
         </InfiniteScroll>
     );
