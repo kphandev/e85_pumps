@@ -1,11 +1,13 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useColorModeValue, Button, Flex, Box, Text } from '@chakra-ui/react';
+
 import { useDrawer } from '../context/DrawerContext';
+import { useLocation } from '../context/LocationContext';
+import { useNotification } from '../context/NotificationContext';
+
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { useNotification } from '../context/NotificationContext';
-import { useLocation } from '../context/LocationContext';
 
 // icons
 const customIcon = new L.Icon({
@@ -26,16 +28,50 @@ const getMarkersFromCache = () => {
 };
 
 const Map = () => {
-    const position = [51.505, -0.09];
-
-    const { setDrawerContentHandler } = useDrawer();
-    const { setSelectedLocationId, setSelectedLocationName } = useLocation();
+    // map related items
+    const mapRef = useRef(null);
+    const defaultPosition = [39.50, -98.35];
+    const [position, setPosition] = useState(defaultPosition);
     const [markers, setMarkers] = useState([]);
 
+    // used to pan over to current location
+    const updateMapView = (lat, lng) => {
+        const map = mapRef.current;
+        if (map != null) {
+            map.flyTo([lat, lng], map.getZoom());
+        }
+    };
+
+    // drawer related items
+    const { setDrawerContentHandler } = useDrawer();
+    const { setSelectedLocationId, setSelectedLocationName } = useLocation();
+
+    // styling
     const buttonColorScheme = useColorModeValue('orange', 'orange');
     const tileLayerURL = useColorModeValue("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png")
 
-    useEffect(() => {
+    useEffect(() => { 
+        const getUserLocation = () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        setPosition([position.coords.latitude, position.coords.longitude]);
+                        updateMapView(position.coords.latitude, position.coords.longitude);
+                    },
+                    () => {
+                        console.log("Location access denied. Using default position.");
+                        setPosition(defaultPosition);
+                    }
+                );
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+                setPosition(defaultPosition);
+            }
+        };
+
+        getUserLocation();
+
+
         const fetchMarkers = async () => {
             try {
                 // const response = await fetch('your-api-endpoint');
@@ -44,13 +80,13 @@ const Map = () => {
 
                 // SAMPLE DATA
                 const data = [{
-                    position: [51.505, -0.09],
+                    position: [36.0695018, -94.2230936],
                     id: "1",
                     name: "Marker One",
                     status: "active"
                 },
                 {
-                    position: [51.515, -0.10],
+                    position: [36.05, -94.225],
                     id: "2",
                     name: "Marker Two",
                     status: "inactive"
@@ -65,7 +101,6 @@ const Map = () => {
 
         fetchMarkers();
         setMarkers(getMarkersFromCache());
-
     }, []);
 
 
@@ -92,11 +127,14 @@ const Map = () => {
         }
     `, [popupBackgroundColor, popupTextColor]);
 
+    console.log('position', position)
+
     return (
         <>
             <style>{popupStyle}</style>
             <MapContainer
-                zoom={13}
+                ref={mapRef}
+                zoom={12}
                 center={position}
                 style={{
                     height: '85vh',
