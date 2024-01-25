@@ -1,4 +1,4 @@
-// import { useRouter } from 'next/router';
+// a pseudo redirect that renders the app with certain info
 import { useDrawer } from '../../context/DrawerContext';
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic';
 const MapWithNoSSR = dynamic(() => import('../../components/map'), {
     ssr: false,
 });
-
 
 const LocationPage = () => {
     const { toggleDrawer } = useDrawer();
