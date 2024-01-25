@@ -71,7 +71,6 @@ const Map = () => {
 
         getUserLocation();
 
-
         const fetchMarkers = async () => {
             try {
                 // const response = await fetch('your-api-endpoint');
@@ -113,9 +112,13 @@ const Map = () => {
     // notifcation test
     const { showNotification } = useNotification();
     const handleError = () => {
-        showNotification('You are about to snitch. You sure?', 'error');
-    };
+        const buttonAction = () => {
+            console.log("REPORTED!")
+        }
 
+        const reportButton = <Button onClick={buttonAction}>Report</Button>
+        showNotification('You are about to snitch. You sure?', 'Reporting Location', reportButton);
+    };
 
     const popupBackgroundColor = useColorModeValue('white', '#2d3748');
     const popupTextColor = useColorModeValue('black', 'white');

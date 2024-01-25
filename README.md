@@ -24,3 +24,5 @@ To get more details such as general info, images, and comments, we'll make an AP
 - Navbar / footer
 In mobile mode, the navbar becomes a footer for ease of use. The links provided simply control the state of the drawer, specifying which mode it should be in (marker info, settings, profile)
 
+- Notificiations
+Notification provider can now accept multiple HTML elements with pre-defined functions.

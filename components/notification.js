@@ -8,7 +8,8 @@ import {
     ModalCloseButton,
     ModalBody,
     ModalFooter,
-    Button
+    Button, 
+    Box
 } from '@chakra-ui/react';
 
 const NotificationModal = () => {
@@ -27,6 +28,14 @@ const NotificationModal = () => {
                     {notification.message}
                 </ModalBody>
                 <ModalFooter>
+                    {/* render multiple extra buttons if needed */}
+                    {Array.isArray(notification.buttons) 
+                    ? notification.buttons.map((button, index) => (
+                        <Box key={index} mr={5}>
+                            {button}
+                        </Box>
+                    )) 
+                    : <Box mr={3}>{notification.buttons}</Box>}
                     <Button colorScheme="blue" mr={3} onClick={hideNotification}>
                         Close
                     </Button>

@@ -7,8 +7,8 @@ export const useNotification = () => useContext(NotificationContext);
 export const NotificationProvider = ({ children }) => {
     const [notification, setNotification] = useState(null);
 
-    const showNotification = (message, type = 'error') => {
-        setNotification({ message, type });
+    const showNotification = (message, title, buttons = null, type=null) => {
+        setNotification({ message, title, buttons, type });
     };
 
     const hideNotification = () => {
