@@ -3,12 +3,7 @@ import fetchClient from "../../../libs/fetchClient";
 
 export default async function handler(req, res) {
     try {
-        let url;
-        if (req.query.station_id) {
-            url = `${process.env.MAPS_SERVICE_URL}/stations/${req.query.station_id}`;
-        } else {
-            url = `${process.env.MAPS_SERVICE_URL}/stations`;
-        }
+        let url = `${process.env.MAPS_SERVICE_URL}/markers`;
 
         const options = { method: 'GET' };
         const response = await fetchClient(url, options);
