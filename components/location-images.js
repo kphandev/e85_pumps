@@ -1,8 +1,9 @@
 import InfiniteScroll from "react-infinite-scroll-component";
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
-import { useBreakpointValue, Flex, Image, Box, IconButton, SimpleGrid, Button, Icon, Spacer } from "@chakra-ui/react";
-import React from 'react'
+import { useBreakpointValue, Flex, Image, Box, IconButton, Button, Icon } from "@chakra-ui/react";
+import React, { useState } from 'react'
 
+// TODO: use react-easy-infinite-scroll-hook for horizontal carousel
 const DesktopImageCarousel = ({ images }) => {
     const scrollContainerRef = React.createRef();
 
@@ -33,7 +34,8 @@ const DesktopImageCarousel = ({ images }) => {
             >
                 {images.map((image, index) => (
                     <Box key={index} minW="200px" mr={2}>
-                        <Image src={image.src} alt={image.alt} borderRadius="10px" />
+                        <Image alt={index}></Image>
+                        {/* <Image src={image.src} alt={image.alt} borderRadius="10px" /> */}
                     </Box>
                 ))}
             </Flex>
@@ -47,60 +49,44 @@ const DesktopImageCarousel = ({ images }) => {
 };
 
 
-const MobileImageGrid = ({ images, fetchMoreImages }) => {
+const MobileImageGrid = ({ images, fetchMoreData }) => {
     return (
         <InfiniteScroll
             dataLength={images.length}
-            next={fetchMoreImages}
+            next={fetchMoreData}
             hasMore={true}
-            loader={<h4>Loading...</h4>}
-            endMessage={
-                <p style={{ textAlign: 'center' }}>
-                    <b>Yay! You have seen it all</b>
-                </p>
-            }
+            loader={<p>Loading...</p>}
+            height={350}
         >
-            <SimpleGrid columns={2} spacing={2}>
-                {images.map((image, index) => (
-                    <Box key={index} h="10vh">
-                        <Image src={image.src} alt={image.alt} maxW="120px" objectFit="cover" borderRadius={"10px"} />
-                    </Box>
-                ))} 
-            </SimpleGrid>
+            {images.map((image, index) => (
+                <div>Image #{index}</div>
+            ))}
         </InfiniteScroll>
     );
 };
 
 
-const LocationImages = ({ data }) => {
-    const isMobile = useBreakpointValue({ base: true, md: false });
-    const fetchMore = () => {
-        loadMoreImages(); // Your logic to load more images goes here
-    };
+const LocationImages = ({ initialData }) => {
+    const [images, setImages] = useState(Array.from({ length: 30 }));
+    const [page, setPage] = useState(2);
+    const [hasMore, setHasMore] = useState(true);
 
-    if (data) {
-        if (isMobile) {
-            return (
-                <Flex direction="column" borderRadius="md" height="full">
-                    <Box flex={1}>
-                        <MobileImageGrid images={data} fetchMoreImages={fetchMore} />
-                    </Box>
-                    <Spacer />
-                    <Button colorScheme="orange" leftIcon={<Icon name="navigation" />}>Upload Image</Button>
-                </Flex>
-            )
-        } else {
-            return (
-                <Flex direction="column" borderRadius="md" height="full">
-                    <Box flex={1}>
-                        <DesktopImageCarousel images={data} />
-                    </Box>
-                    <Button colorScheme="orange" leftIcon={<Icon name="navigation" />}>Upload Image</Button>
-                </Flex>
-            )
-        }
+    const fetchMoreData = async () => {
+        setTimeout(() => {
+            setImages([...images].concat(Array.from({ length: 10 })))
+        }, 1500);
     }
 
+    if (images.length > 0) {
+        return (
+            <Flex direction="column" borderRadius="md" height="full">
+                <Box flex={1}>
+                    <MobileImageGrid images={images} fetchMoreData={fetchMoreData}></MobileImageGrid>
+                </Box>
+                <Button colorScheme="orange" leftIcon={<Icon name="navigation" />}>Upload Image</Button>
+            </Flex>
+        )
+    }
 };
 
 export default LocationImages

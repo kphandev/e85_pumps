@@ -20,13 +20,14 @@ const Comment = ({ content, likes, dislikes, date }) => {
     );
 };
 
-const LocationComments = ({ data }) => {
-    const [comments, setComments] = useState(data);
-    const [hasMore, setHasMore] = useState(true); // You will need to manage this state based on when you want to stop loading more items
+const LocationComments = () => {
+    const [comments, setComments] = useState(Array.from({ length: 30 }));
 
     // This function should contain the logic to fetch the next page of comments
     const fetchMoreComments = () => {
-        // Fetch next comments and update the state
+        setTimeout(() => {
+            setComments([...comments].concat(Array.from({ length: 10 })))
+        }, 1500);
     };
 
     return (
@@ -35,17 +36,16 @@ const LocationComments = ({ data }) => {
                 <InfiniteScroll
                     dataLength={comments.length}
                     next={fetchMoreComments}
-                    hasMore={hasMore}
+                    hasMore={true}
                     loader={<h4>Loading...</h4>}
+                    height={350}
                 >
-                    <Stack spacing={8}>
-                        {comments.map((comment, index) => (
-                            <Comment key={index} {...comment} />
-                        ))}
-                    </Stack>
+                    {comments.map((comment, index) => (
+                        <div>Comment #{index}</div>
+                    ))}
                 </InfiniteScroll>
             </Box>
-            <Button leftIcon={<FiMessageSquare />} colorScheme="orange" w="full" mt={4}>
+            <Button leftIcon={<FiMessageSquare />} colorScheme="orange" w="full">
                 Add Comment
             </Button>
         </Flex>

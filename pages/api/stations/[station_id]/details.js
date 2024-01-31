@@ -20,8 +20,8 @@ export default async function handler(req, res) {
         try {
             const [details, initialImages, initialComments] = await Promise.all([
                 fetchStationDetails(station_id),
-                fetchStationImages(station_id), // Fetches initial set of images
-                fetchStationComments(station_id), // Fetches initial set of comments
+                fetchStationImages(station_id),
+                fetchStationComments(station_id)
             ]);
 
             return res.status(200).json({

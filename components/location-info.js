@@ -9,34 +9,10 @@ const LocationInfo = ({ locationId }) => {
     const [data, setDrawerData] = useState(null);
     const isMobile = useBreakpointValue({ base: true, md: false });
     const testImages = [
-        {
-            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png',
-            alt: 'random'
-        },
-        {
-            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png',
-            alt: 'random'
-        },
-        {
-            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png',
-            alt: 'random'
-        },
-        {
-            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png',
-            alt: 'random'
-        },
-        {
-            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png',
-            alt: 'random'
-        },
-        {
-            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png',
-            alt: 'random'
-        }
+
     ]
 
     const testComments = [
-        { content: 'testing 123', likes: 10, dislikes: 10, date: '1234' }
     ]
 
     useEffect(() => {
@@ -53,8 +29,7 @@ const LocationInfo = ({ locationId }) => {
     return (
         <>
             {isMobile ? (
-                <Flex direction="column" height="100%">
-
+                <Flex direction="column">
                     <Tabs colorScheme='orange' flex="1">
                         <TabList justifyContent="space-between">
                             <Tab>General</Tab>
@@ -63,7 +38,7 @@ const LocationInfo = ({ locationId }) => {
                         </TabList>
                         <TabPanels>
                             <TabPanel height="50vh"><LocationGeneral data={data} /></TabPanel>
-                            <TabPanel height="50vh"><LocationImages data={testImages} /></TabPanel>
+                            <TabPanel height="50vh"><LocationImages initialData={testImages} /></TabPanel>
                             <TabPanel height="50vh"><LocationComments data={testComments} /></TabPanel>
                         </TabPanels>
                     </Tabs>
@@ -71,7 +46,7 @@ const LocationInfo = ({ locationId }) => {
             ) : (
                 <VStack spacing={4} align="stretch" height="100%">
                     <Box flex={1} py={5}><LocationGeneral data={data} /></Box>
-                    <Box flex={1} py={5}><LocationImages data={testImages} /></Box>
+                    <Box flex={1} py={5}><LocationImages initialData={testImages} /></Box>
                     <Box flex={1} py={5}><LocationComments data={testComments} /></Box>
                 </VStack>
             )}
