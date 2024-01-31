@@ -5,7 +5,6 @@ import { useDrawer } from '../context/DrawerContext';
 
 const InfoDrawer = ({ title, children }) => {
     const { isDrawerOpen, toggleDrawer } = useDrawer();
-    // const isMobile = useBreakpointValue({ base: true, md: false });
 
     const drawerProps = useBreakpointValue({
         base: { width: '100vw', height: '65vh', placement: 'bottom' },

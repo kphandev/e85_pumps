@@ -8,10 +8,10 @@ const MapWithNoSSR = dynamic(() => import('../../components/map'), {
 });
 
 const LocationPage = () => {
-    const { toggleDrawer } = useDrawer();
+    const { setDrawerContentHandler } = useDrawer();
 
     useEffect(() => {
-        toggleDrawer();
+        setDrawerContentHandler('location');
     }, [])
 
     return (

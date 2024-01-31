@@ -28,7 +28,13 @@ const Main = ({ children, router }) => {
                 return { title: 'Profile', content: <ProfileInfo /> };
             case 'location':
                 if (locationId) {
-                    return { title: selectedLocationName, content: <LocationInfo locationId={locationId} /> };
+                    // add API call to look up the selected location's name
+                    const testLocations = {
+                        '1': 'Marker One',
+                        '2': 'Marker Two'
+                    }
+
+                    return { title: testLocations[locationId], content: <LocationInfo locationId={locationId} /> };
                 }
                 break;
             default:
@@ -62,9 +68,12 @@ const Main = ({ children, router }) => {
                 </Container>
             )}
 
-            <InfoDrawer title={drawer.title}>
-                {drawer.content}
-            </InfoDrawer>
+            {
+                drawer && 
+                <InfoDrawer title={drawer.title}>
+                    {drawer.content}
+                </InfoDrawer>
+            }
 
             <Footer />
         </Box>
