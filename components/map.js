@@ -18,6 +18,7 @@ const customIcon = new L.Icon({
 });
 
 // getting and setting markers in cache
+// TODO asdf but also prob store based on radius
 const saveMarkersToCache = (markers) => {
     localStorage.setItem('markers', JSON.stringify(markers));
 };
